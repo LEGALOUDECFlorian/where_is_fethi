@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: fethi-project
+        working-directory: fethi-project/
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -27,10 +27,7 @@ jobs:
 
       - name: Build the project
         run: npm run build
-
-      - name: Install Surge CLI
-        run: npm install --global surge
-
+        
       - name: Deploy surge
         run: |
           npm install -g surge
