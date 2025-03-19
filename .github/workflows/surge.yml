@@ -31,5 +31,5 @@ jobs:
       - name: Deploy surge
         run: |
           npm install -g surge
-          cp ./dist/fethi-project/index.html ./dist/fethi-project/200.html
-          surge ./dist/fethi-project --domain ${{ secrets.SURGE_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
+          cp ./dist/index.html ./dist/200.html
+          surge ./dist --domain ${{ secrets.SURGE_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
