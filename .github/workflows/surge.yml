@@ -28,8 +28,11 @@ jobs:
       - name: Build the project
         run: npm run build
 
+      - name: Debug listing
+        run: ls -R ./dist
+        
+
       - name: Deploy surge
         run: |
           npm install -g surge
-          cp ./dist/index.html ./dist/200.html
           surge ./dist --domain ${{ secrets.SURGE_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
