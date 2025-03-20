@@ -1,0 +1,34 @@
+.header {
+  /* width: 100%; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color:  #933712;
+  text-align: center;
+  padding: 1rem;
+  box-shadow: 10px 11px 86px 0px rgba(0,0,0,0.85);
+}
+
+.title {
+  color: aliceblue;
+  padding: 1rem 5rem;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 45px;
+  border-bottom-left-radius: 45px;
+  background-color: #ab3f13;
+}
+
+.main {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffff;
+}
+
+.Iframe {
+  padding: 1rem;
+  border: 2px solid #2222;
+  border-radius: 15px;
+  box-shadow: 0px 0px 28px 4px #000000;
+}
