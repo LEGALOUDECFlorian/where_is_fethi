@@ -1,0 +1,39 @@
+name: Deploy where's fethi to Surge
+
+on:
+  push:
+    branches:
+      - implement-map
+
+concurrency:
+  group: "surge"
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: fethi-project/
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4
+
+      - name: Install dependencies
+        run: npm i
+
+      - name: Build the project
+        run: npm run build
+
+      - name: Debug listing
+        run: ls -R ./dist
+        
+
+      - name: Deploy surge
+        run: |
+          npm install -g surge
+          cp ./dist/fethi-project/browser/index.html ./dist/fethi-project/browser/200.html
+          surge ./dist/fethi-project/browser --domain ${{ secrets.SURGE_DOMAIN_DEV }} --token ${{ secrets.SURGE_TOKEN }}
