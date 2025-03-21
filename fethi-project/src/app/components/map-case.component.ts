@@ -18,14 +18,17 @@ import { BrowserModule } from '@angular/platform-browser';
         *ngFor="let char of characters; let i = index"
         [position]="char.position"
         [label]="{ text: '?', color: 'white' }"
-        [icon]="char.iconUrl"
+        [icon]="{
+          url: char.iconUrl,
+          scaledSize: scaledSize
+          }"
         (mapClick)="handleMarkerClick(i)"
       >
       </map-marker>
 
       <map-marker
         [position]="userPosition"
-        [label]="{ text: 'Test', color: 'white' }"
+        [label]="{ text: 'Moi', color: 'white' }"
         [icon]="{
           url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
         }"
@@ -56,6 +59,7 @@ import { BrowserModule } from '@angular/platform-browser';
 })
 export class MapCaseComponent implements OnInit {
   @ViewChild(MapInfoWindow) infoWindow!: MapInfoWindow;
+  scaledSize = new google.maps.Size(24, 24);
   infoContent = '';
   userPosition: google.maps.LatLngLiteral = { lat: 0, lng: 0 };
   zoom = 15;
