@@ -116,7 +116,7 @@ export class MapCaseComponent implements OnInit {
       this.characters.push({
         position,
         isCharly,
-        iconUrl: isCharly ? './../../assets/isFethi.png' : './../../assets/charly-walk.png',
+        iconUrl: isCharly ? 'isFethi.png' : 'charly-walk.png',
       });
     }
   }
