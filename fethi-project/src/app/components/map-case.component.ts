@@ -7,35 +7,37 @@ import { BrowserModule } from '@angular/platform-browser';
   selector: 'app-map-case',
   imports: [GoogleMapsModule, CommonModule],
   template: `
-  <google-map
-    height="500px"
-    width="100%"
-    [center]="userPosition"
-    [zoom]="zoom"
-    [options]="mapOptions">
+    <google-map
+      height="500px"
+      width="100%"
+      [center]="userPosition"
+      [zoom]="zoom"
+      [options]="mapOptions"
+    >
+      <map-marker
+        *ngFor="let char of characters; let i = index"
+        [position]="char.position"
+        [label]="{ text: '?', color: 'white' }"
+        (mapClick)="handleMarkerClick(i)"
+      >
+      </map-marker>
 
-  <map-marker
-    *ngFor="let char of characters; let i = index"
-    [position]="char.position"
-    [label]="{text: '?', color: 'white'}"
-    (mapClick)="handleMarkerClick(i)">
-  </map-marker>
+      <map-marker
+        [position]="userPosition"
+        [label]="{ text: 'Test', color: 'white' }"
+        [icon]="{
+          url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+        }"
+      >
+      </map-marker>
+    </google-map>
 
-  <map-marker
-    [position]="userPosition"
-    [label]="{ text: 'Moi', color: 'white' }"
-    [icon]="{
-      url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
-    }">
-  </map-marker>
-</google-map>
-
-<div *ngIf="message" style="margin-top: 10px">
-  <p>{{ message }}</p>
-  <button *ngIf="showReplay" (click)="spawnCharacters()">Rejouer</button>
-</div>
+    <div *ngIf="message" style="margin-top: 10px">
+      <p>{{ message }}</p>
+      <button *ngIf="showReplay" (click)="spawnCharacters()">Rejouer</button>
+    </div>
   `,
-styles: `
+  styles: `
   google-map {
     display: block;
     margin: 0 auto;
@@ -49,10 +51,9 @@ styles: `
     margin-top: 10px;
     cursor: pointer;
   }
-  `
+  `,
 })
 export class MapCaseComponent implements OnInit {
-
   @ViewChild(MapInfoWindow) infoWindow!: MapInfoWindow;
   infoContent = '';
   userPosition: google.maps.LatLngLiteral = { lat: 0, lng: 0 };
@@ -61,30 +62,44 @@ export class MapCaseComponent implements OnInit {
     disableDefaultUI: true,
     styles: [
       {
-        featureType: 'poi',  // points d'interets
-        stylers: [{ visibility: 'off' }]
+        featureType: 'poi', // points d'interets
+        stylers: [{ visibility: 'off' }],
       },
       {
-        featureType: 'transit',  // transports
-        stylers: [{ visibility: 'off' }]
-      }
+        featureType: 'transit', // transports
+        stylers: [{ visibility: 'off' }],
+      },
     ],
   };
   charlyIndex = -1;
-  characters: { position: google.maps.LatLngLiteral; isCharly: boolean; iconUrl: string }[] = [];
+  characters: {
+    position: google.maps.LatLngLiteral;
+    isCharly: boolean;
+    iconUrl: string;
+  }[] = [];
   message = '';
   showReplay = false;
 
-
   ngOnInit() {
-    navigator.geolocation.getCurrentPosition((pos) => {
+    console.log(`navigator: ${navigator.geolocation}`);
+    if (!navigator.geolocation) {
       this.userPosition = {
-        lat: pos.coords.latitude,
-        lng: pos.coords.longitude
+        lat: -22.9068467,
+        lng: -43.1728965,
       };
-      console.log(`spawnCharacters`)
+      console.log(`not navigator`);
       this.spawnCharacters();
-    });
+    } else {
+      navigator.geolocation.getCurrentPosition((pos) => {
+        console.log(`${pos.coords.latitude}`);
+        this.userPosition = {
+          lat: pos.coords.latitude,
+          lng: pos.coords.longitude,
+        };
+        console.log(`spawnCharacters`);
+        this.spawnCharacters();
+      });
+    }
   }
 
   spawnCharacters() {
@@ -100,12 +115,15 @@ export class MapCaseComponent implements OnInit {
       this.characters.push({
         position,
         isCharly,
-        iconUrl: isCharly ? './assets/isFethi.png' : './assets/charly-walk.png'
+        iconUrl: isCharly ? './assets/isFethi.png' : './assets/charly-walk.png',
       });
     }
   }
 
-  randomPositionAround(origin: google.maps.LatLngLiteral, radius: number): google.maps.LatLngLiteral {
+  randomPositionAround(
+    origin: google.maps.LatLngLiteral,
+    radius: number
+  ): google.maps.LatLngLiteral {
     const y0 = origin.lat;
     const x0 = origin.lng;
     const rd = radius / 111300;
