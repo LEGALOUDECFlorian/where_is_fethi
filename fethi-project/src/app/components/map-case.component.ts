@@ -80,6 +80,7 @@ export class MapCaseComponent implements OnInit {
   zoom = 15;
   mapOptions: google.maps.MapOptions = {
     disableDefaultUI: true,
+    gestureHandling: 'none',
     styles: [
       {
         featureType: 'poi', // points d'interets
@@ -164,7 +165,13 @@ export class MapCaseComponent implements OnInit {
     // } else {
     //   this.message = '❌ Raté ! Ce n\'était pas Charly.';
     // };
-    this.infoContent = selected.isCharly ? '🎉 Gagné ! Tu as trouvé Charly !' : '❌ Raté ! Ce n\'était pas Charly.';
+    if (selected.isCharly) {
+      this.infoContent = '🎉 Gagné ! Tu as trouvé Fethi !';
+      this.showReplay = true;
+    } else {
+      this.infoContent = '❌ Raté ! Ce n\'était pas Fethi.';
+    };
+  //  this.infoContent = selected.isCharly ? '🎉 Gagné ! Tu as trouvé Charly !' : '❌ Raté ! Ce n\'était pas Charly.';
     this.infoWindow.open(marker);
   }
 
