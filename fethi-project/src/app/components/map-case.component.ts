@@ -1,27 +1,29 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { GoogleMapsModule, MapInfoWindow } from '@angular/google-maps';
-import { BrowserModule } from '@angular/platform-browser';
+import { Component, OnInit, ViewChild, NgModule } from '@angular/core';
+import { GoogleMapsModule, MapInfoWindow, MapMarker } from '@angular/google-maps';
 
 @Component({
   selector: 'app-map-case',
   imports: [GoogleMapsModule, CommonModule],
   template: `
     <google-map
-      height="500px"
+      height="100vh"
       width="100%"
       [center]="userPosition"
       [zoom]="zoom"
       [options]="mapOptions"
+      (mapClick)="addMarker($event)"
     >
+      
+      
       <map-marker
         *ngFor="let char of characters; let i = index"
         [position]="char.position"
         [icon]="{
           url: char.iconUrl,
-        
           }"
-        (mapClick)="handleMarkerClick(i)"
+        (mapClick)="handleMarkerClick(i, marker)"
+        #marker="mapMarker"
       >
       </map-marker>
 
@@ -33,12 +35,17 @@ import { BrowserModule } from '@angular/platform-browser';
         }"
       >
       </map-marker>
+      <map-info-window>{{infoContent}}</map-info-window>
     </google-map>
 
-    <div *ngIf="message" style="margin-top: 10px">
+    <div  *ngIf="showReplay" class="overlay-button">
+    <button class="button" (click)="spawnCharacters()">Rejouer</button>
+    </div>
+    
+    <!-- <div *ngIf="message" style="margin-top: 10px">
       <p>{{ message }}</p>
       <button *ngIf="showReplay" (click)="spawnCharacters()">Rejouer</button>
-    </div>
+    </div> -->
   `,
   styles: `
   google-map {
@@ -46,6 +53,7 @@ import { BrowserModule } from '@angular/platform-browser';
     margin: 0 auto;
     border: 2px solid #333;
     border-radius: 8px;
+    position: relative;
   }
 
   button {
@@ -54,6 +62,14 @@ import { BrowserModule } from '@angular/platform-browser';
     margin-top: 10px;
     cursor: pointer;
   }
+
+  .overlay-button {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+    }
   `,
 })
 export class MapCaseComponent implements OnInit {
@@ -140,14 +156,33 @@ export class MapCaseComponent implements OnInit {
     return { lat: y0 + y, lng: x0 + x };
   }
 
-  handleMarkerClick(index: number) {
+  handleMarkerClick(index: number, marker: MapMarker) {
     const selected = this.characters[index];
-    if (selected.isCharly) {
-      this.message = '🎉 Gagné ! Tu as trouvé Charly !';
-      this.showReplay = true;
+    // if (selected.isCharly) {
+    //   this.message = '🎉 Gagné ! Tu as trouvé Charly !';
+    //   this.showReplay = true;
+    // } else {
+    //   this.message = '❌ Raté ! Ce n\'était pas Charly.';
+    // };
+    this.infoContent = selected.isCharly ? '🎉 Gagné ! Tu as trouvé Charly !' : '❌ Raté ! Ce n\'était pas Charly.';
+    this.infoWindow.open(marker);
+  }
+
+  addMarker(event: google.maps.MapMouseEvent) {
+    if (event.latLng) {
+      const position = event.latLng.toJSON();
+      this.characters.push({
+        position,
+        isCharly: false,
+        iconUrl: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
+      });
     } else {
-      this.message = '❌ Raté ! Ce n’était pas Charly.';
+      console.error('La position du clic sur la carte est nulle.');
     }
+  }
+
+  openInfoWindow(marker: MapMarker) {
+    this.infoWindow.open(marker);
   }
 
   // ngOnInit(): void {
