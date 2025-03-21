@@ -31,7 +31,7 @@ import { GoogleMapsModule, MapInfoWindow, MapMarker } from '@angular/google-maps
         [position]="userPosition"
         [label]="{ text: 'Moi', color: 'white' }"
         [icon]="{
-          url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+          url: 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png'
         }"
       >
       </map-marker>
