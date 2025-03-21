@@ -17,10 +17,6 @@ import { BrowserModule } from '@angular/platform-browser';
       <map-marker
         *ngFor="let char of characters; let i = index"
         [position]="char.position"
-        [label]="{ 
-          text: '', 
-          color: 'white' 
-          }"
         [icon]="{
           url: char.iconUrl,
           scaledSize: scaledSize
