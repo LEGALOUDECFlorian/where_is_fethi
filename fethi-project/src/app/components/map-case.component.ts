@@ -82,6 +82,7 @@ export class MapCaseComponent implements OnInit {
         lat: pos.coords.latitude,
         lng: pos.coords.longitude
       };
+      console.log(`spawnCharacters`)
       this.spawnCharacters();
     });
   }
@@ -99,7 +100,7 @@ export class MapCaseComponent implements OnInit {
       this.characters.push({
         position,
         isCharly,
-        iconUrl: isCharly ? 'assets/charly.png' : 'assets/person.png'
+        iconUrl: isCharly ? './assets/isFethi.png' : './assets/charly-walk.png'
       });
     }
   }
@@ -107,7 +108,7 @@ export class MapCaseComponent implements OnInit {
   randomPositionAround(origin: google.maps.LatLngLiteral, radius: number): google.maps.LatLngLiteral {
     const y0 = origin.lat;
     const x0 = origin.lng;
-    const rd = radius / 111300; // ~meters to degrees
+    const rd = radius / 111300;
     const u = Math.random();
     const v = Math.random();
     const w = rd * Math.sqrt(u);
