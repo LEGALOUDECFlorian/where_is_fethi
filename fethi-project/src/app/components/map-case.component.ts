@@ -19,7 +19,7 @@ import { BrowserModule } from '@angular/platform-browser';
         [position]="char.position"
         [icon]="{
           url: char.iconUrl,
-          scaledSize: scaledSize
+        
           }"
         (mapClick)="handleMarkerClick(i)"
       >
@@ -58,7 +58,7 @@ import { BrowserModule } from '@angular/platform-browser';
 })
 export class MapCaseComponent implements OnInit {
   @ViewChild(MapInfoWindow) infoWindow!: MapInfoWindow;
-  scaledSize = new google.maps.Size(24, 24);
+//  scaledSize = new google.maps.Size(24, 24);
   infoContent = '';
   userPosition: google.maps.LatLngLiteral = { lat: 0, lng: 0 };
   zoom = 15;
