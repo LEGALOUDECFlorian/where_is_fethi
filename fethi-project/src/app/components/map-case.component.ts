@@ -80,7 +80,7 @@ export class MapCaseComponent implements OnInit {
   zoom = 15;
   mapOptions: google.maps.MapOptions = {
     disableDefaultUI: true,
-    gestureHandling: 'none',
+    gestureHandling: 'cooperative',
     styles: [
       {
         featureType: 'poi', // points d'interets
