@@ -18,6 +18,7 @@ import { BrowserModule } from '@angular/platform-browser';
         *ngFor="let char of characters; let i = index"
         [position]="char.position"
         [label]="{ text: '?', color: 'white' }"
+        [icon]="char.iconUrl"
         (mapClick)="handleMarkerClick(i)"
       >
       </map-marker>
@@ -115,7 +116,7 @@ export class MapCaseComponent implements OnInit {
       this.characters.push({
         position,
         isCharly,
-        iconUrl: isCharly ? 'isFethi.png' : 'charly-walk.png',
+        iconUrl: isCharly ? './../../assets/isFethi.png' : './../../assets/charly-walk.png',
       });
     }
   }
