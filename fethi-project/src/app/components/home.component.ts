@@ -13,13 +13,12 @@ import { sprites } from '../data/sprites.data';
         <h1>Where is Fethi ?</h1>
       </div>
 
-      <div class="home">
-        <div class="image-container">
-          <img [src]="currentSprite" alt="Fethi">
-        </div>
-
-        <button (click)="navigate()">Jouer</button>
+      <div class="image-container">
+        <img [src]="currentSprite" alt="Fethi">
       </div>
+
+      <button (click)="navigate()">Jouer</button>
+
     </div>
   `,
   styles: [`
@@ -27,10 +26,12 @@ import { sprites } from '../data/sprites.data';
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      min-height: 100vh;
+      justify-content: center; 
+      height: 100vh;           
       background-color: #933712;
+      overflow: hidden;       
       padding: 2rem;
+      box-sizing: border-box;
     }
 
     .title-box {
@@ -105,7 +106,7 @@ export class HomeComponent {
     this.intervalId = setInterval(() => {
       this.currentIndex = (this.currentIndex + 1) % sprites.length;
       this.currentSprite = sprites[this.currentIndex];
-    }, 5650);
+    }, 2650);
   }
 
   ngOnDestroy(): void {
