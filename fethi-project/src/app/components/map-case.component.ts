@@ -271,7 +271,7 @@ export class MapCaseComponent implements OnInit {
     const markerArray = this.markers.toArray();
     const fethiMarker = markerArray[this.fethiIndex];
     if (fethiMarker) {
-      this.infoContent = '👀 Mouais, j\'éspére que tu as \n cherché un peu avant !';
+      this.infoContent = '👀 Mouais, j\'éspère que tu as \n cherché un peu avant !';
       this.infoWindow.open(fethiMarker);
     }
   }
